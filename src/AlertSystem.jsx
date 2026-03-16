@@ -236,7 +236,7 @@ export function useAlerts() {
 
   /* Auto-dismiss info toasts after 8s */
   useEffect(() => {
-    const infos = alerts.filter(a => a.severity === "info" && !a.acknowledged);
+    const infos = (Array.isArray(alerts) ? alerts : []).filter(a => a.severity === "info" && !a.acknowledged);
     if (!infos.length) return;
     const timers = infos.map(a => setTimeout(() => acknowledge(a.id), 8000));
     return () => timers.forEach(clearTimeout);
@@ -287,7 +287,7 @@ export function AlertToastStack({ alerts, acknowledge, dismiss }) {
   };
 
   // Visible = unacknowledged (acknowledged ones auto-dismiss via hook)
-  const visible = alerts.filter(a => !a.acknowledged).slice(-6); // max 6 visible
+  const visible = (Array.isArray(alerts) ? alerts : []).filter(a => !a.acknowledged).slice(-6); // max 6 visible
 
   if (!visible.length) return null;
 
@@ -389,7 +389,7 @@ export function AlertWarningStrip({ alerts, acknowledgeAll, onHeightChange }) {
   const [expanded, setExpanded] = useState(false);
   const stripRef = useRef(null);
 
-  const active = alerts.filter(a => !a.acknowledged);
+  const active = (Array.isArray(alerts) ? alerts : []).filter(a => !a.acknowledged);
 
   /* Notify parent of height changes for grid adjustment */
   useEffect(() => {
