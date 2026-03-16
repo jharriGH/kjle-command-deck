@@ -246,22 +246,27 @@ export function AvgPainScorePanel() {
   injectCSS();
   const { data, loading, error } = useFetch(`${API}/pain/distribution`);
 
-  const MIDPOINTS = { "0-20":10, "21-40":30, "41-60":50, "61-80":70, "81-100":90 };
-
   const buckets = data?.distribution ?? [];
+
+  // Handle both string range "0-20" and array range [0,20] from API
+  const getMid = (range) => {
+    if (Array.isArray(range)) return (range[0] + range[1]) / 2;
+    const mp = { "0-20":10, "21-40":30, "41-60":50, "61-80":70, "81-100":90 };
+    return mp[range] ?? 50;
+  };
+  const getMin = (range) => Array.isArray(range) ? range[0] : parseInt((range || "0").split("-")[0]);
 
   let totalCount = 0, weightedSum = 0;
   buckets.forEach(({ range, count }) => {
-    const mid = MIDPOINTS[range] ?? 50;
-    weightedSum  += mid * (count ?? 0);
-    totalCount   += (count ?? 0);
+    weightedSum += getMid(range) * (count ?? 0);
+    totalCount  += (count ?? 0);
   });
   const avgPain = totalCount > 0 ? Math.round(weightedSum / totalCount) : 0;
 
-  const getBucket = (r) => buckets.find(b => b.range === r)?.count ?? 0;
-  const critical  = getBucket("81-100");
-  const high60    = getBucket("61-80");
-  const active    = getBucket("41-60");
+  const getBucket = (min) => buckets.find(b => getMin(b.range) === min)?.count ?? 0;
+  const critical  = getBucket(81);
+  const high60    = getBucket(61);
+  const active    = getBucket(41);
 
   const arcColor  = avgPain >= 70 ? P.green : avgPain >= 40 ? P.amber : P.red;
 
