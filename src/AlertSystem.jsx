@@ -106,7 +106,7 @@ function mkAlert(id, severity, message) {
 ══════════════════════════════════════════════════════════════════════════ */
 export function useAlerts() {
   const sessionInit  = loadSession();
-  const [alerts,     setAlerts]     = useState(sessionInit.alerts ?? []);
+  const [alerts,     setAlerts]     = useState(Array.isArray(sessionInit.alerts) ? sessionInit.alerts : []);
   const cooldowns    = useRef(sessionInit.cooldowns ?? {});   // id → last fired ts
   const prevHot      = useRef(null);
 
@@ -403,6 +403,7 @@ export function AlertWarningStrip({ alerts, acknowledgeAll, onHeightChange }) {
   }, [active.length, expanded, onHeightChange]);
 
   if (!active.length) {
+    if (onHeightChange) onHeightChange(0);
     return null;
   }
 
