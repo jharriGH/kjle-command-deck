@@ -404,10 +404,10 @@ export default function KJLECommandDeck({
       </div>
 
       {/* ALERT WARNING STRIP — between topbar and main grid */}
-      <AlertWarningStrip
+      {/* <AlertWarningStrip
         alerts={alerts}
         acknowledgeAll={acknowledgeAll}
-        onHeightChange={setStripHeight}
+        onHeightChange={setStripHeight} /> */}
       />
 
       {/* MAIN GRID */}
@@ -488,10 +488,10 @@ export default function KJLECommandDeck({
       </div>
 
       {/* ALERT TOAST STACK — fixed position, renders over everything */}
-      <AlertToastStack
+      {/* <AlertToastStack
         alerts={alerts}
         acknowledge={acknowledge}
-        dismiss={dismiss}
+        dismiss={dismiss} /> */}
       />
     </div>
   );
