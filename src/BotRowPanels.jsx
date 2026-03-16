@@ -169,7 +169,7 @@ export function SystemLogPanel() {
       const r = await fetch(`${API}/scheduler/log?limit=40`);
       if (!r.ok) throw new Error(r.status);
       const d = await r.json();
-      const incoming = d.logs ?? d ?? [];
+      const incoming = d.logs ?? d.log ?? [];
       setLogs(incoming);
       setError(false);
 
