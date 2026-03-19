@@ -252,10 +252,10 @@ html, body { background: #010810; overflow: hidden; }
   border-radius: 50%;
   flex-shrink: 0;
 }
-.sdot.pulse { animation: pulse-dot 2s ease-in-out infinite; }
+.sdot.pulse { animation: pulse-dot 1.8s ease-in-out infinite; }
 
 .bbar {
-  height: 32px;
+  height: 28px;
   background: #000810;
   border-top: 1px solid rgba(255,215,0,0.1);
   display: flex;
@@ -316,7 +316,7 @@ export default function KJLECommandDeck({
   const clock     = useClock();
   const leadsVal  = useCounter(totalLeads, 1500);
   const nichesVal = useCounter(nichesActive, 1100);
-  const [utcDate, setUtcDate] = useState("");
+  const [utcDate, setUtcDate]       = useState("");
   const [stripHeight, setStripHeight] = useState(0);
 
   // Alert system
@@ -338,7 +338,6 @@ export default function KJLECommandDeck({
     const s = document.createElement("style");
     s.textContent = GLOBAL_CSS;
     document.head.appendChild(s);
-    // Preload fonts aggressively
     const link = document.createElement("link");
     link.rel = "preload";
     link.as = "style";
@@ -404,22 +403,22 @@ export default function KJLECommandDeck({
       </div>
 
       {/* ALERT WARNING STRIP — between topbar and main grid */}
-      {/* <AlertWarningStrip
+      <AlertWarningStrip
         alerts={alerts}
         acknowledgeAll={acknowledgeAll}
-        onHeightChange={setStripHeight} /> */}
+        onHeightChange={setStripHeight}
       />
 
       {/* MAIN GRID */}
       <div style={{
-        position: "relative",
-        zIndex: 2,
-        flex: 1,
-        overflow: "hidden",
-        display: "grid",
-        gridTemplateRows: "140px 1fr 1fr",
-        gap: 8,
-        padding: 8,
+        position:            "relative",
+        zIndex:              2,
+        flex:                1,
+        overflow:            "hidden",
+        display:             "grid",
+        gridTemplateRows:    "140px 1fr 1fr",
+        gap:                 8,
+        padding:             8,
       }}>
 
         {/* ROW 1 — 5 equal top panels */}
@@ -472,9 +471,9 @@ export default function KJLECommandDeck({
       <div className="bbar">
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
           {[
-            { label: `DB ${dbStatus}`,                 color: "#00FF88" },
-            { label: "INGEST ENGINE NOMINAL",           color: "#00FF88" },
-            { label: `ENRICHMENT ${enrichmentStatus}`,  color: enrColor  },
+            { label: `DB ${dbStatus}`,                color: "#00FF88" },
+            { label: "INGEST ENGINE NOMINAL",          color: "#00FF88" },
+            { label: `ENRICHMENT ${enrichmentStatus}`, color: enrColor  },
           ].map(({ label, color }) => (
             <div key={label} style={{ display: "flex", alignItems: "center", gap: 5 }}>
               <Dot color={color} size={4} />
@@ -483,15 +482,15 @@ export default function KJLECommandDeck({
           ))}
         </div>
         <span style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: 9, color: "#004455", letterSpacing: "0.08em" }}>
-          KJLE v1.0 &nbsp;·&nbsp; {totalLeads.toLocaleString()} LEADS LIVE &nbsp;·&nbsp; BUILD 001-025 COMPLETE
+          KJLE v1.0 &nbsp;·&nbsp; {totalLeads.toLocaleString()} LEADS LIVE &nbsp;·&nbsp; BUILD 001-032 COMPLETE
         </span>
       </div>
 
       {/* ALERT TOAST STACK — fixed position, renders over everything */}
-      {/* <AlertToastStack
+      <AlertToastStack
         alerts={alerts}
         acknowledge={acknowledge}
-        dismiss={dismiss} /> */}
+        dismiss={dismiss}
       />
     </div>
   );
