@@ -1,4 +1,24 @@
+## Empire onboarding -- read every session
+Single source of truth: jharriGH/kjle. On session start, fetch + follow:
+- https://raw.githubusercontent.com/jharriGH/kjle/main/EMPIRE_SC_HANDOFF.md
+- https://raw.githubusercontent.com/jharriGH/kjle/main/EMPIRE_INTEGRATION_STANDARD.md
+Keep current at this repo root:
+1. ROADMAP.md -- valid YAML front-matter (project, status, description, last_updated, repo,
+   api_url, facts_doc, vault_key, integrates_with). The empire dashboard reads this; bump
+   last_updated on any change.
+2. PROJECT_FACTS.md -- integration contract (endpoints, schema, auth), verified against the
+   live system. Vault key NAMES only, never secret values.
+To learn about another project: brain_search for "<project> integration" or read EMPIRE_INDEX.md
+in jharriGH/kjle -> that project's PROJECT_FACTS.md -> brain_vault_search for its key.
+Repo edits: this repo only, explicit file paths only.
+
+# ⚡ KJLE_COMMAND — CLAUDE.md
+# Managed by brain_sync.py (Brain sections)
+# + Manual additions (never auto-updated)
+# Last synced: May 10, 2026 05:08 PM PST
+
 ---
+
 ## AUTONOMOUS EXECUTION — READ THIS FIRST
 
 You are part of the King James Empire CC fleet.
@@ -39,18 +59,42 @@ KJE MCP: https://kje-mcp.onrender.com/mcp/T24NM1Sxbh7txJs-unNIjblaXMqA1OZW6gNU-U
 VPS: 192.161.173.97 (claude at /usr/local/bin/claude)
 Brain: https://jim-brain-production.up.railway.app
 Key: jim-brain-kje-2026-kingjames
+Dispatcher: http://192.161.173.97:8091/dispatch
+Notify: POST /notify {severity, message, channel, project}
+
+---
+MANDATORY RESPONSE FORMAT (every response, no exceptions)
 ---
 
-# ⚡ KJLE_COMMAND — CLAUDE.md
-# Managed by brain_sync.py (Brain sections)
-# + Manual additions (never auto-updated)
-# Last synced: May 05, 2026 02:45 PM PST
+End EVERY response with a one-line status banner:
+
+📊 [PROJECT] — [X]% | 📍 [PHASE] — [X]% | 💬 Chat ~[X]%
+
+For SC sessions also show an active empire table populated
+from brain_search("active session") — Session | Status | Jim Needed?
+
+CHAT SIZE FORMULA (rough):
+  message_count × 1500 / 200000 × 100 → show as %
+  70% → "💬 Chat getting full — consider new chat"
+  85% → "⚠️ Open new chat now to avoid losing context"
+  95% → "🚨 OPEN NEW CHAT IMMEDIATELY"
+
+7 BRAIN TOOLS (use without being asked):
+  brain_status | brain_search | brain_get_project
+  brain_vault_search | brain_log | brain_memory
+  run_build_task
+
+VAULT HAS EVERYTHING — never ask Jim for API keys,
+tokens, passwords, Supabase/Stripe/Twilio/Render/
+Railway/GitHub PAT/Anthropic/Cloudflare/Resend/
+Qdrant/n8n/Vapi/RackNerd creds. Always:
+  brain_vault_search("what you need")
 
 ---
 
 ## CURRENT STATUS
 <!-- BRAIN-SYNC:START:STATUS -->
-*Brain sync: May 05, 2026 02:45 PM PST*
+*Brain sync: May 10, 2026 05:08 PM PST*
 
 <!-- BRAIN-SYNC:END:STATUS -->
 
@@ -61,7 +105,7 @@ Key: jim-brain-kje-2026-kingjames
 - Clients: 0
 - MRR: $99.00
 - HOT leads: 23
-- Last decision: KJ Autonomous v2.0: 7/8 KJWidgetz + 8/8 DemoBoosterz agents live. Clone script built. Agent 4 stubbed pending AVA. VoiceDropz stubbed pending Drop Cowboy BYOC. Next: wire Agent 4 to KJ SalesAgentz, clone SiteEnginez + UnhideLocal pipelines.
+- Last decision: KJLE DNC Day complete on 2026-05-06. Empire-wide DNC source of truth operational. 6 commits shipped (e978aee through ce91b4d). TH integration LIVE in production with 16+ real DNC checks on Day 1. KJPDE and ReviewBombz handoff specs delivered. ReachInbox webhooks configured and exercised end-to-end. Reply parser stays conservative pending real-data tuning.
 
 **AI Costs:**
 - Today: $0.0083
@@ -147,5 +191,5 @@ brain_save_card(
 
 ---
 
-*Synced: May 05, 2026 02:45 PM PST*
+*Synced: May 10, 2026 05:08 PM PST*
 *Refresh: `python brain_sync.py kjle_command`*
