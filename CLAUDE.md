@@ -1,7 +1,7 @@
 # ⚡ KJLE_COMMAND — CLAUDE.md
 # Managed by brain_sync.py (Brain sections)
 # + Manual additions (never auto-updated)
-# Last synced: June 22, 2026 07:36 PM PST
+# Last synced: June 22, 2026 08:43 PM PST
 
 ---
 
@@ -219,7 +219,7 @@ Then give a plain-English summary of what we accomplished.
 
 ## CURRENT STATUS
 <!-- BRAIN-SYNC:START:STATUS -->
-*Brain sync: June 22, 2026 07:36 PM PST*
+*Brain sync: June 22, 2026 08:43 PM PST*
 
 <!-- BRAIN-SYNC:END:STATUS -->
 
@@ -231,6 +231,14 @@ Then give a plain-English summary of what we accomplished.
 - MRR: $0.00
 - HOT leads: 0
 - Last decision: None
+
+**AI Costs:**
+- Today: $0.0000
+- This month: $0.0042
+- All time: $0.0042
+
+**Empire:**
+- 2 live | 2 launch ready | 8 in progress
 <!-- BRAIN-SYNC:END:EMPIRE_STATE -->
 
 ---
@@ -308,14 +316,5 @@ brain_save_card(
 
 ---
 
-*Synced: May 05, 2026 02:45 PM PST*
+*Synced: June 22, 2026 08:43 PM PST*
 *Refresh: `python brain_sync.py kjle_command`*
-
-<!-- KJE-ONBOARD-V1 -->
-## KJ Empire — SC Onboarding
-This repo belongs to the KJ Empire (DevelopingRiches Inc, owner Jim Harris / jharriGH).
-- Central repo: jharriGH/kjle. Brain: https://jim-brain-production.up.railway.app
-- New SC seats: run brain_status, brain_search this repo's slug, and verify live state before declaring anything done.
-- Decide-and-proceed. Cost-gate chargeable dispatches. Never echo secrets — pull keys from the Brain vault.
-- See ROADMAP.md for status.
-<!-- /KJE-ONBOARD-V1 -->
