@@ -1,7 +1,7 @@
 # ⚡ KJLE_COMMAND — CLAUDE.md
 # Managed by brain_sync.py (Brain sections)
 # + Manual additions (never auto-updated)
-# Last synced: August 06, 2026 02:17 PM PST
+# Last synced: July 28, 2026 08:25 PM PST
 
 ---
 
@@ -179,33 +179,6 @@ WRITE-CONFIRMATION (read-back required, ALL critical writes — not just handoff
   once. If still failing: "⚠️ WRITE STILL FAILING — likely brain MCP connection, flag to
   Jim." Never mask a failed write as success.
 
-## RESERVED COMMANDS — Jim's shorthand for handoffs. Execute these SILENTLY.
-When Jim's message matches a pattern below, it IS a command — do not explain, do not reach for other tools, just execute via the handoff-card mechanism above and reply per the SILENCE RULES.
-
-1. "email <X> about <Y>" / "send an email to <X> about <Y>" / "ask <X> about <Y>" / "email <X>: <Y>"
-   -> Resolve <X> to a canonical slug via GET /resolve-slug?input=<X> (Brain API).
-      - exact/alias/shorthand hit: SILENTLY write a HANDOFF card to the canonical slug (FROM this SC, TO canonical, <Y> as REQUEST; if Jim said "ask what he needs" compose the specific questions). Auto-PRIORITY high if Jim said ASAP/urgent/"before <event>". READ BACK by id/title to confirm it landed.
-        REPLY TO JIM = exactly one line: "Sent to <X>."  (NO card id, NO echo of questions, NO summary, NO explanation of mechanism.)
-      - method "ambiguous": ONE line: "<X> = <candidate1> or <candidate2>?"  then wait.
-      - method "fuzzy-suggest": ONE line: "Did you mean <suggestion>?"
-      - method "unknown" or write failed: ONE line: "Couldn't send - <reason>."
-
-2. "check your email" / "any handoffs?" / "check your inbox" / "any mail?"
-   -> SILENTLY read cards for THIS SC's canonical slug (+ aliases) where title starts "HANDOFF ->" or "REPORT ->" and STATUS open. Read FULL body BY ID (list view truncates).
-      none -> "No new mail."  some -> one line each: "From <sender> about <subject> (<priority>)."  Do NOT dump bodies unless Jim says "read it"/"show me".
-
-3. "reply to it" / "answer it" / "send it back" / "respond"
-   -> SILENTLY verify the answer against live code/schema, UPSERT THE SAME card (same title) with reply appended + STATUS answered, READ BACK to confirm.
-      REPLY TO JIM = one line: "Replied to <sender>."  (NO echo of the answer.)
-
-4. "check <X>'s reply" / "did <X> answer" / "what did <X> say"
-   -> Resolve <X>, silently read the answered card by id/title (full body).
-      REPLY TO JIM = ONLY the answer content Jim needs, concise. NO "I queried Brain", NO play-by-play, NO card ids. Just the substance. Full detail only if Jim says "full reply".
-
-SILENCE RULES (all four): NEVER show card ids/endpoints/"I wrote/queried Brain"/embedding-lag notes/step-by-step. NEVER echo questions when sending or summarize the reply when sending back. SUCCESS = one line. Speak more ONLY if (a) FAILED, (b) AMBIGUOUS needing a pick, (c) Jim explicitly asks. Write-confirmation happens SILENTLY - surface only failure. Management by exception: only interrupt Jim to decide or report failure.
-
-"email" is a RESERVED VERB. If Jim says "email <someone>", it is ALWAYS this command - never interpret it as needing brain_notify (that's Jim-alerts only) or as a literal question about messaging tools.
-
 # ───────────────────────────────────────────────────────────
 # SESSION START — load context automatically (free, read-only)
 # ───────────────────────────────────────────────────────────
@@ -304,23 +277,16 @@ Manual run: python brain_sync.py  (location: C:\Users\Jim\Documents\GitHub\)
 # ───────────────────────────────────────────────────────────
 # MANDATORY FOOTER — end EVERY response with this block
 # ───────────────────────────────────────────────────────────
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📁 [PROJECT] · [TAG] · [DIR]
-🕐 Started [STARTED]  ·  Now: [one-phrase current step]
-📋 TASK:
-   [line 1 of the task Jim gave, ~70 chars]
-   [line 2, ~70 chars]
-   [line 3, ~70 chars]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 Task: [TASK]
+📍 Now: [what you are doing this response]
+🕐 Started [STARTED]
 
-Fill rules:
-- PROJECT/TAG/DIR/STARTED: read context file: Get-Content "$env:TEMP\cc_context_<TAG>.txt"
-  Fields: TAG=, TASK=, PROJECT=, DIR=, STARTED= (real launch timestamp from the launcher).
-- TASK = FIRST 3 LINES of the task Jim gave at session start, verbatim, each truncated ~70 chars.
-  This is the key identifier — it's how Jim tells sessions apart.
-- Now = one short phrase for the current step (e.g. "reading scheduler.py", "writing fix").
-- If the context file is missing: fall back to working dir + repo name, still echo the 3 task lines.
-- MANDATORY on EVERY response, not just completion.
+To fill PROJECT/TAG/DIR/STARTED: read the context file the cc launcher wrote at kickoff:
+  PowerShell: Get-Content "$env:TEMP\cc_context_<TAG>.txt"
+where <TAG> is your session tag (e.g. TEST-9). Lines: TAG=, TASK=, PROJECT=, DIR=, STARTED=.
+Use TASK for the Task line. Fill Now with your current action.
+If the file is not found, fall back to working directory + repo name; note "context file not found" once.
 
 # ───────────────────────────────────────────────────────────
 # TEMPLATE — UNIVERSAL SESSION ENDER (paste to a CC to close out)
@@ -347,7 +313,7 @@ verified landed" ONLY if every read-back above passed.
 
 ## CURRENT STATUS
 <!-- BRAIN-SYNC:START:STATUS -->
-*Brain sync: August 06, 2026 02:17 PM PST*
+*Brain sync: July 28, 2026 08:25 PM PST*
 
 <!-- BRAIN-SYNC:END:STATUS -->
 
@@ -366,7 +332,7 @@ verified landed" ONLY if every read-back above passed.
 - All time: $0.0048
 
 **Empire:**
-- 4 live | 2 launch ready | 29 in progress
+- 4 live | 2 launch ready | 22 in progress
 <!-- BRAIN-SYNC:END:EMPIRE_STATE -->
 
 ---
@@ -444,5 +410,14 @@ brain_save_card(
 
 ---
 
-*Synced: August 06, 2026 02:17 PM PST*
+*Synced: July 28, 2026 08:25 PM PST*
 *Refresh: `python brain_sync.py kjle_command`*
+
+<!-- KJE-ONBOARD-V1 -->
+## KJ Empire — SC Onboarding
+This repo belongs to the KJ Empire (DevelopingRiches Inc, owner Jim Harris / jharriGH).
+- Central repo: jharriGH/kjle. Brain: https://jim-brain-production.up.railway.app
+- New SC seats: run brain_status, brain_search this repo's slug, and verify live state before declaring anything done.
+- Decide-and-proceed. Cost-gate chargeable dispatches. Never echo secrets — pull keys from the Brain vault.
+- See ROADMAP.md for status.
+<!-- /KJE-ONBOARD-V1 -->
