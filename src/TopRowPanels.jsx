@@ -455,28 +455,26 @@ export function ProductFitPanel() {
 
 /* ═══════════════════════════════════════════════════════════════════════════
    PANEL 4 — DATA QUALITY
-   GET /pipeline/status
-   Response shape expected:
-     { total_leads, phone_coverage_pct, email_coverage_pct, website_coverage_pct }
-   Falls back silently to hardcoded values if endpoint absent / errors.
+   GET /pipeline/status (live, no auth required — verified 2026-10-31)
+   Live response shape:
+     { total_leads, phone_coverage_pct, email_coverage_pct, website_coverage_pct,
+       segment_counts: {hot, warm, cold, unclassified}, enrichment_stages, last_updated }
+   On fetch failure, shows the shared Err state instead of silently rendering
+   frozen placeholder numbers that look indistinguishable from live data.
 ═══════════════════════════════════════════════════════════════════════════ */
-
-const DQ_FALLBACK = { phone: 91, email: 67, website: 78 };
 
 export function DataQualityPanel() {
   injectCSS();
 
-  // Try primary endpoint; silently use fallback on error
-  const { data, loading } = useFetch(`${API}/pipeline/status`);
+  const { data, loading, error } = useFetch(`${API}/pipeline/status`);
 
-  const total   = data?.total_leads         ?? TOTAL_BASELINE;
-  const phonePct  = data?.phone_coverage_pct  ?? DQ_FALLBACK.phone;
-  const emailPct  = data?.email_coverage_pct  ?? DQ_FALLBACK.email;
-  const webPct    = data?.website_coverage_pct ?? DQ_FALLBACK.website;
+  if (error) return <Err label="DATA QUALITY ERR" />;
 
-  // Derived counts
-  const allValid    = Math.round(total * Math.min(phonePct, emailPct, webPct) / 100);
-  const withErrors  = total - Math.round(total * Math.max(phonePct, emailPct, webPct) / 100);
+  const total     = data?.total_leads          ?? 0;
+  const phonePct  = data?.phone_coverage_pct   ?? 0;
+  const emailPct  = data?.email_coverage_pct   ?? 0;
+  const webPct    = data?.website_coverage_pct ?? 0;
+  const segments  = data?.segment_counts ?? { hot: 0, warm: 0, cold: 0, unclassified: 0 };
 
   // Animated pct numbers
   const phoneAnim = useCounter(Math.round(phonePct));
@@ -487,6 +485,13 @@ export function DataQualityPanel() {
     { key:"PHONE",   pct:phonePct, anim:phoneAnim, color:P.green, delay:"0s"    },
     { key:"EMAIL",   pct:emailPct, anim:emailAnim, color:P.gold,  delay:"0.08s" },
     { key:"WEBSITE", pct:webPct,   anim:webAnim,   color:P.cyan,  delay:"0.16s" },
+  ];
+
+  const segStats = [
+    { key:"HOT",    val:(segments.hot ?? 0).toLocaleString(),          color:P.green },
+    { key:"WARM",   val:(segments.warm ?? 0).toLocaleString(),         color:P.gold  },
+    { key:"COLD",   val:(segments.cold ?? 0).toLocaleString(),         color:P.cyan  },
+    { key:"TOTAL",  val:total.toLocaleString(),                        color:P.label },
   ];
 
   return (
@@ -536,17 +541,13 @@ export function DataQualityPanel() {
         ))}
       </div>
 
-      {/* ── Summary row ── */}
+      {/* ── Summary row (live segment_counts) ── */}
       <div style={{
         display:"flex", justifyContent:"space-between",
         paddingTop:5, borderTop:`1px solid ${P.border}`,
         flexShrink:0,
       }}>
-        {[
-          { key:"VALID",  val:allValid.toLocaleString(),   color:P.green },
-          { key:"ERRORS", val:Math.max(withErrors,0).toLocaleString(), color:P.amber },
-          { key:"TOTAL",  val:total.toLocaleString(),      color:P.label },
-        ].map(({ key, val, color }) => (
+        {segStats.map(({ key, val, color }) => (
           <div key={key} style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:2 }}>
             {loading
               ? <Shimmer w={36} h={9} />
